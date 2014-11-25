@@ -1,0 +1,44 @@
+<div class="container">
+
+    <div class="row">
+        <div class="well">
+            <input type="file" ng-file-select="onFileSelect($files)">
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Wydatki</h3>
+        <div class="pull-right">suma wydatków: {{getExpensesSum()}}</div>
+        <button class="btn btn-success" ng-click="expenses.push({name: '', filter: ''})">dodaj wydatek</button>
+        <table class="table">
+            <tr>
+                <th>Nazwa Wydatku</th>
+                <th>Opis zawiera któryś z napisów (napisy oddzielone ',')</th>
+                <th>Koszt Wydatku</th>
+            </tr>
+            <tr ng-repeat="expense in expenses" >
+                <td><input type="text" ng-model="expense.name"/></td>
+                <td><textarea ng-model="expense.filterString" ng-change="updateExpense(expense, entries.data)"/></textarea></td>
+                <td>{{ expense.sum }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row">
+        <h3>Nieskategoryzowane</h3>
+        <div class="pull-right">suma nieskategoryzowanych wydatków: {{sumEntries(getUncategorizedEntries())}}</div>
+
+
+        <table ng-if="entries" class="table">
+            <tr>
+               <th ng-repeat="fieldName in entries.meta.fields">
+                   {{fieldName}}
+               </th>
+            </tr>
+            <tr ng-repeat="entry in getUncategorizedEntries()">
+                <td ng-repeat="fieldName in entries.meta.fields">{{entry[fieldName]}}</td>
+            </tr>
+
+        </table>
+    </div>
+</div>
